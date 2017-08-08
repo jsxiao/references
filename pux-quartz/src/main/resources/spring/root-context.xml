@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:c="http://www.springframework.org/schema/c" 
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" 
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+						http://www.springframework.org/schema/beans/spring-beans.xsd
+						http://www.springframework.org/schema/context 
+						http://www.springframework.org/schema/context/spring-context.xsd
+						http://www.springframework.org/schema/tx 
+						http://www.springframework.org/schema/tx/spring-tx.xsd
+						http://www.springframework.org/schema/aop 
+						http://www.springframework.org/schema/aop/spring-aop.xsd
+						http://www.springframework.org/schema/task 
+						http://www.springframework.org/schema/task/spring-task.xsd">
+
+	<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:spring/jdbc.properties</value>
+				<value>classpath:config.properties</value>
+				<value>classpath:spring/redis.properties</value>
+			</list>
+		</property>
+	</bean>
+     
+	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+		<property name="url" value="${jdbc.url}" />
+        <property name="username" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+		<property name="maxActive" value="100" />
+		<property name="initialSize" value="10" />
+		<property name="maxWait" value="60000" />
+		<property name="minIdle" value="10" />
+		<property name="timeBetweenEvictionRunsMillis" value="3000" />
+		<property name="minEvictableIdleTimeMillis" value="300000" />
+		<property name="validationQuery" value="select 1 " />
+		<property name="testWhileIdle" value="true" />
+		<property name="testOnBorrow" value="false" />
+		<property name="testOnReturn" value="false" />
+		<property name="poolPreparedStatements" value="true" />
+		<property name="maxPoolPreparedStatementPerConnectionSize" value="100" />
+	</bean>
+
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="mapperLocations" value="classpath*:com/pux/wwd/dao/*/mapper/*.xml" />
+		<property name="plugins">
+			<array>
+				<bean class="com.github.pagehelper.PageHelper">
+					<property name="properties">
+						<value>dialect=mysql</value>
+					</property>
+				</bean>
+				<bean class="com.px.core.tx.WrapperClassDefaultValueInterceptor"/>
+			</array>
+		</property>
+	</bean>
+	
+	<bean class="tk.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.pux.wwd.dao.*" />
+		<property name="markerInterface" value="tk.mybatis.mapper.common.Mapper" />
+		<property name="notEmpty" value="true" />
+	</bean>
+	
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate"
+		abstract="false" lazy-init="false" autowire="default">
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>
+	</bean>
+	
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager"
+		p:dataSource-ref="dataSource" />
+	
+	<tx:annotation-driven transaction-manager="transactionManager"
+		proxy-target-class="true" />
+
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="find*" read-only="true" />
+			<tx:method name="get*" read-only="true" />
+			<tx:method name="query*" read-only="true" />
+			<tx:method name="check*" read-only="true" />
+			<tx:method name="select*" read-only="true" />
+			<tx:method name="list*" read-only="true" />
+			<tx:method name="page*" read-only="true" />
+			<tx:method name="isExists*" read-only="true" />
+			<tx:method name="create*" propagation="REQUIRED" read-only="false" />
+			<tx:method name="update*" propagation="REQUIRED" read-only="false" />
+			<tx:method name="delete*" propagation="REQUIRED" read-only="false" />
+			<tx:method name="*" propagation="REQUIRED" />
+		</tx:attributes>
+	</tx:advice>
+	
+	<context:component-scan base-package="com.pux.wwd.svc.*.impl,com.pux.wwd.support" />
+	
+	<bean class="com.px.core.ContextHolder" />
+	<bean class="com.px.core.ConfigLoader" init-method="loadConfig">
+		<property name="loader" ref="systemService"/>
+	</bean>
+	
+	<bean id="scheduleReportFactory"
+		class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="applicationContextSchedulerContextKey" value="applicationContextKey" />
+		<property name="configLocation" value="classpath:quartz.properties" />
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>
+	
+	<!-- 添加线程池注解支持 -->
+	<task:annotation-driven executor="taskexecutor"/>
+	<task:executor id="taskexecutor" pool-size="5-50" queue-capacity="200"/>
+</beans>
