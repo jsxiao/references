@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<taglib xsi:schemaLocation="http://java.sun.com/xml/ns/javaee webjsptaglibrary_2_1.xsd"
+	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	version="2.1">
+	<tlibversion>2.0</tlibversion>
+	<jspversion>2.1</jspversion>
+	<uri>http://www.px.com/msite</uri>
+
+	<function>
+		<name>u</name>
+		<function-class>com.px.core.taglib.ELFunction</function-class>
+		<function-signature>com.px.core.security.UserProfile u()</function-signature>
+	</function>
+	
+	<function>
+		<name>hideChar</name>
+		<function-class>com.px.core.taglib.ELFunction</function-class>
+		<function-signature>java.lang.String hideChar(java.lang.String)</function-signature>
+	</function>
+	
+	<tag>
+		<name>cToValue</name>
+		<tagclass>com.wwd.msite.taglib.CToValueTag</tagclass>
+		<bodycontent>JSP</bodycontent>
+		<attribute>
+			<name>key</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+	 
+	<tag>
+		<name>cToName</name>
+		<tagclass>com.wwd.msite.taglib.CToNameTag</tagclass>
+		<bodycontent>JSP</bodycontent>
+		<attribute>
+			<name>key</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag> 
+	
+	<!-- <tag>
+		<name>radioWithDict</name>
+		<tagclass>com.ec.cinlet.taglib.RadioDictTag</tagclass>
+		<bodycontent>JSP</bodycontent>
+		<attribute>
+			<name>name</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>type</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>value</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>defaultValue</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>clazz</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>split</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>reverse</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>start</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>end</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>divClazz</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>lableClazz</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>disabled</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>excludeValues</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>includeValues</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag> -->
+</taglib>

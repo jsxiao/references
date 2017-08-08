@@ -1,0 +1,10 @@
+*/target/*
+/target/
+*/.settings/*
+.settings
+.project
+.class
+.classpath
+.DS_Store
+.gitignore.swp
+jdbc.properties
