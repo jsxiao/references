@@ -5,7 +5,7 @@
 	<groupId>com.px</groupId>
 	<artifactId>core</artifactId>
 	<!-- <version>1.2.1</version> -->
-	<version>1.2.15.pc</version>
+	<version>1.2.16.pc</version>
 	<packaging>jar</packaging>
 
 	<name>core</name>
@@ -68,7 +68,7 @@
 		<dependency>
 			<groupId>com.px</groupId>
 			<artifactId>dao</artifactId>
-			<version>1.1</version>
+			<version>1.1.RELEASE</version>
 		</dependency>
 
 		<!-- <dependency> <groupId>tk.mybatis</groupId> <artifactId>mapper</artifactId> 
