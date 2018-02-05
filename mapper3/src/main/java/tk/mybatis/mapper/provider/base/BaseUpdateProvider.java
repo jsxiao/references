@@ -63,7 +63,7 @@ public class BaseUpdateProvider extends MapperTemplate {
         List<SqlNode> ifNodes = new ArrayList<SqlNode>();
         for (EntityColumn column : columnList) {
             if (!column.isId()) {
-                ifNodes.add(new StaticTextSqlNode(column.getColumn() + " = " + column.getColumnHolder() + ", "));
+                ifNodes.add(new StaticTextSqlNode(column.getColumn() + " = #{" + column.getProperty() + "}, "));
             }
         }
         sqlNodes.add(new SetSqlNode(ms.getConfiguration(), new MixedSqlNode(ifNodes)));
@@ -99,7 +99,7 @@ public class BaseUpdateProvider extends MapperTemplate {
         //全部的if property!=null and property!=''
         for (EntityColumn column : columnList) {
             if (!column.isId()) {
-                StaticTextSqlNode columnNode = new StaticTextSqlNode(column.getColumn() + " = " + column.getColumnHolder() + ", ");
+                StaticTextSqlNode columnNode = new StaticTextSqlNode(column.getColumn() + " = #{" + column.getProperty() + "}, ");
                 ifNodes.add(getIfNotNull(column, columnNode));
             }
         }

@@ -152,7 +152,7 @@ public class ExampleProvider extends MapperTemplate {
 
         for (EntityColumn column : columnList) {
             if (!column.isId()) {
-                StaticTextSqlNode columnNode = new StaticTextSqlNode(column.getColumn() + " = " + column.getColumnHolder("record") +  ", ");
+                StaticTextSqlNode columnNode = new StaticTextSqlNode(column.getColumn() + " = #{record." + column.getProperty() + "}, ");
                 ifNodes.add(new IfSqlNode(columnNode, "record." + column.getProperty() + " != null"));
             }
         }
@@ -182,7 +182,7 @@ public class ExampleProvider extends MapperTemplate {
         //全部的if property!=null and property!=''
         for (EntityColumn column : columnList) {
             if (!column.isId()) {
-                setSqlNodes.add(new StaticTextSqlNode(column.getColumn() + " = " + column.getColumnHolder("record") +  ", " ));
+                setSqlNodes.add(new StaticTextSqlNode(column.getColumn() + " = #{record." + column.getProperty() + "}, "));
             }
         }
         sqlNodes.add(new SetSqlNode(ms.getConfiguration(), new MixedSqlNode(setSqlNodes)));
