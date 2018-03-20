@@ -5,7 +5,7 @@
 	<groupId>com.px</groupId>
 	<artifactId>core</artifactId>
 	<!-- <version>1.2.1</version> -->
-	<version>1.2.16.pc</version>
+	<version>1.2.17.pc</version>
 	<packaging>jar</packaging>
 
 	<name>core</name>
@@ -365,6 +365,7 @@
 		</dependency>
 
 		<!-- 验证码 -->
+		<!--
 		<dependency>
 			<groupId>com.octo.captcha</groupId>
 			<artifactId>jcaptcha-all</artifactId>
@@ -408,6 +409,7 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+		-->
 
 	</dependencies>
 </project>
