@@ -15,9 +15,16 @@ import com.px.core.PropertiesLoader;
 public class ConfigUtil {
 
 	private static Logger logger = LoggerFactory.getLogger(ConfigUtil.class);
+	private static PropertiesLoader propertiesLoader = null;
 
-	private static PropertiesLoader propertiesLoader = new PropertiesLoader("config.properties");
-	
+	/**
+	 * 该方法应当仅在初始化时调用
+	 * @param properties
+	 */
+	public static void loadProperties(String... properties){
+		propertiesLoader = new PropertiesLoader(properties);
+	}
+
 	/**
 	 * 获取配置
 	 */

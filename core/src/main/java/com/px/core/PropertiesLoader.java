@@ -159,7 +159,7 @@ public class PropertiesLoader {
 		}
 		return props;
 	}
-	
+
 	public static void main(String[] args) {
 		ClassPathResource resource = new ClassPathResource("resources");
 		System.out.println(resource.getPath());
