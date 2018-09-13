@@ -1,7 +1,9 @@
 package com.px.core;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Enumeration;
 import java.util.NoSuchElementException;
 import java.util.Properties;
 
@@ -16,10 +18,14 @@ import org.springframework.core.io.ResourceLoader;
 public class PropertiesLoader {
 
 	private static Logger logger = LoggerFactory.getLogger(PropertiesLoader.class);
+	public static PropertiesLoader INSTANCE = null;
 	private static ResourceLoader resourceLoader = new DefaultResourceLoader();
 	private final Properties properties;
+	private boolean isReloading = false;
+
 
 	public PropertiesLoader(String... resourcesPaths) {
+		INSTANCE = this;
 		properties = loadProperties(resourcesPaths);
 	}
 
@@ -49,6 +55,15 @@ public class PropertiesLoader {
 	 * @return
 	 */
 	public String getProperty(String key) {
+
+		if(isReloading){
+			try {
+				wait();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+
 		String value = getValue(key);
 		if (value == null) {
 			throw new NoSuchElementException();
@@ -138,7 +153,29 @@ public class PropertiesLoader {
 		String value = getValue(key);
 		return value != null ? Boolean.valueOf(value) : defaultValue;
 	}
-	
+
+	public void reLoad(String resources){
+		Properties props = new Properties();
+		logger.debug("Loading properties file from: {}", resources);
+
+		InputStream is = null;
+		try {
+			is = new FileInputStream(resources);
+			props.load(is);
+
+			Enumeration<?> enumeration = props.propertyNames();
+			while(enumeration.hasMoreElements()){
+				String key = (String) enumeration.nextElement();
+				String value = props.getProperty(key);
+				properties.setProperty(key, value);
+			}
+		} catch (IOException ex) {
+			logger.warn("Could not load properties from path: {};  {}", resources, ex.getMessage());
+		} finally {
+			IOUtils.closeQuietly(is);
+		}
+	}
+
 	private Properties loadProperties(String... resourcesPaths) {
 		Properties props = new Properties();
 

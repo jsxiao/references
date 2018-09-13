@@ -43,4 +43,16 @@ public interface UserProfile {
 	 * @return
 	 */
 	public boolean isReal();
+
+	/**
+	 * 手机号码
+	 * @return
+	 */
+	public String getPhone();
+
+	/**
+	 * 存管手机号
+	 * @return
+	 */
+	public String getApiPhone();
 }

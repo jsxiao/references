@@ -1,5 +1,10 @@
 package com.px.utils;
 
+import com.alibaba.fastjson.JSONObject;
+import com.google.gson.Gson;
+import com.px.core.Config;
+import com.px.core.ContextHolder;
+import com.px.core.cache.redis.IRedisHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
@@ -11,6 +16,7 @@ public final class Global {
 	private static Logger logger = LoggerFactory.getLogger(Global.class);
 	
 	public static String getValue(String key) {
+
 		NameValuePair pair = ConfigUtil.getSysConfig(key);
 		if(pair == null)
 			return "";

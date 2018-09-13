@@ -25,6 +25,14 @@ public class ConfigUtil {
 		propertiesLoader = new PropertiesLoader(properties);
 	}
 
+	public static void reLoad(String resources){
+		if(propertiesLoader == null){
+			logger.warn("cloud not reLoad properties, because [PropertiesLoader] is null!");
+			return;
+		}
+		propertiesLoader.reLoad(resources);
+	}
+
 	/**
 	 * 获取配置
 	 */
@@ -42,7 +50,7 @@ public class ConfigUtil {
 	public static NameValuePair getSysConfig(String key){
 		if(StringUtils.isEmpty(key))
 			return null;
-		
-		return ConfigLoader.get(key);
+
+		return ConfigLoader.INSTANCE.get(key);
 	}
 }

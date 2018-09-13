@@ -46,7 +46,18 @@ public class UserContext {
 		@Override
 		public boolean isReal() {
 			return false;
-		}};
+		}
+
+		@Override
+		public String getPhone() {
+			return null;
+		}
+
+		@Override
+		public String getApiPhone() {
+			return null;
+		}
+	};
 	
 	/**
 	 * 1. 该方法不应该出现在Service中 <br>
